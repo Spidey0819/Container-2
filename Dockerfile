@@ -11,5 +11,3 @@ COPY . .
 EXPOSE 6002
 
 CMD ["python", "app.py"]
-
-#testing

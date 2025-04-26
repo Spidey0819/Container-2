@@ -35,34 +35,28 @@ def calculate_sum():
 
     try:
         with open(file_path, 'r') as csvfile:
-            # Use csv.DictReader to parse CSV
+
             csv_reader = csv.DictReader(csvfile)
 
-            # Get the field names
             fieldnames = [clean_key(fieldname) for fieldname in csv_reader.fieldnames]
 
-            # Check if required fields exist
             if 'product' not in fieldnames or 'amount' not in fieldnames:
                 return jsonify({
                     "file": file_name,
                     "error": "Input file not in CSV format."
                 })
 
-            # Process each row
             for row in csv_reader:
-                # Clean the keys and values
                 cleaned_row = {}
                 for key, value in row.items():
                     cleaned_row[clean_key(key)] = value.strip()
 
-                # Check if required fields have values
                 if 'product' not in cleaned_row or 'amount' not in cleaned_row:
                     csv_format_valid = False
                     break
 
                 products_array.append(cleaned_row)
 
-                # If product matches, add its amount to the sum
                 if cleaned_row.get('product') == product_details:
                     try:
                         product_sum += int(cleaned_row.get('amount', 0))
@@ -95,5 +89,3 @@ def calculate_sum():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=6002, debug=False)
-
-#Trigger
